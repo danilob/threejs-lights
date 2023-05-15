@@ -34,6 +34,13 @@ pane.addInput(ambientLight, "intensity", {
     max: 1,
     step: 0.001
 })
+
+const directionalLight = new THREE.DirectionalLight(0x00fffc, 0.3)
+directionalLight.position.set(1, 0.25, 0)
+scene.add(directionalLight)
+
+
+
 /**
  * Objects
  */
