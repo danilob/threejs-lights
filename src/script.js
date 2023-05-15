@@ -1,8 +1,25 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import {Pane} from 'tweakpane';
-
+import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js'
 const PARAMS = {
+    visible: true,
+    visibleLightHelper: () => {
+        if (PARAMS.visible){
+            hemisphereLightHelper.visible = true    
+            directionalLightHelper.visible = true  
+            pointLightHelper.visible = true
+            spotLightHelper.visible = true
+            rectAreaLightHelper.visible = true
+        }else{
+            hemisphereLightHelper.visible = false    
+            directionalLightHelper.visible = false  
+            pointLightHelper.visible = false
+            spotLightHelper.visible = false
+            rectAreaLightHelper.visible = false
+        }
+        PARAMS.visible = !PARAMS.visible
+    },
     download: () => {
         const link = document.createElement('a');
         link.download = 'download.png';
@@ -35,6 +52,11 @@ pane.addInput(ambientLight, "intensity", {
     step: 0.001
 })
 
+pane.addInput(PARAMS, "visible",{
+    label: "show helpers"
+}).on("change",(ev)=>{
+    PARAMS.visibleLightHelper()
+})
 const directionalLight = new THREE.DirectionalLight(0x00fffc, 0.3)
 directionalLight.position.set(1, 0.25, 0)
 scene.add(directionalLight)
@@ -57,6 +79,24 @@ spotLight.target.position.x = -0.75
 scene.add(spotLight.target)
 scene.add(spotLight)
 
+/** 
+ * Helpers
+ */
+
+const hemisphereLightHelper = new THREE.HemisphereLightHelper(hemisphereLight, 0.2)
+scene.add(hemisphereLightHelper)
+
+const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 0.2)
+scene.add(directionalLightHelper)
+
+const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2)
+scene.add(pointLightHelper)
+
+const spotLightHelper = new THREE.SpotLightHelper(spotLight)
+scene.add(spotLightHelper)
+
+const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLight)
+scene.add(rectAreaLightHelper)
 /**
  * Objects
  */
