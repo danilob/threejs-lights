@@ -26,8 +26,14 @@ const scene = new THREE.Scene()
 /**
  * Lights
  */
-
-
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+scene.add(ambientLight)
+pane.addInput(ambientLight, "intensity", {
+    label: "amb. level",
+    min: 0,
+    max: 1,
+    step: 0.001
+})
 /**
  * Objects
  */
